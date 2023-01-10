@@ -12,7 +12,6 @@ Python SDK for Conductor allows you to:
     3. Create and update workflow and task metadata
     4. User and event management
 
-
 ### Running Example
 
 > **Note**
@@ -50,22 +49,16 @@ We create a simple 2-step workflow that fetches the user details and sends an em
 <td>
 <pre> 
 ConductorWorkflow(
-    executor=WORKFLOW_EXECUTOR,
+    executor=workflow_executor,
     name='user_notification',
     version=1,
-).add(
-    SimpleTask(
-        'get_user_info', 'get_user_info'
-    ).input(
-        'userId', '${workflow.input.userId}'
-    )
-).add(
-    SimpleTask(
-        'send_email', 'send_email'
-    ).input(
-        'email', '${get_user_info.output.email}'
-    )
 )
+workflow.add(
+    SimpleTask('get_user_info', 'get_user_info').input(
+        'userId', '${workflow.input.userId}')
+)
+workflow >> SimpleTask('send_email', 'send_email').input(
+    'email', '${get_user_info.output.email}')
 </pre>
 </td>
 </tr>
@@ -84,13 +77,13 @@ There are two ways to execute a workflow:
 ### Synchronous Workflow Execution
 
 ```python
-TODO
+# WorkflowExecutor.ExecuteWorkflow(...)
 ```
 
 ### Asynchronous Workflow Execution
 
-```csharp
-WorkflowExecutor#StartWorkflow
+```python
+WorkflowExecutor.StartWorkflow(...)
 ```
 
 See [main.py](/examples/main.py) for complete code sample of workflow execution.
