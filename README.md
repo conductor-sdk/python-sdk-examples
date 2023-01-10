@@ -54,13 +54,11 @@ get_user_info_task = SimpleTask(
 ).input(
     'userId', '${workflow.input.userId}'
 )
-
 send_email_task = SimpleTask(
     'send_email', 'send_email'
 ).input(
     'email', '${get_user_info.output.email}'
 )
-
 workflow = ConductorWorkflow(
     executor=WORKFLOW_EXECUTOR,
     name='user_notification',
