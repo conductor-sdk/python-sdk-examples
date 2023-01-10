@@ -21,6 +21,12 @@ def get_configuration():
     return Configuration(**params)
 
 
+def get_workflow_execution_url(workflow_id: str) -> str:
+    url = os.getenv(CONDUCTOR_SERVER_URL)
+    prefix = url[:-4]
+    return f'{prefix}/execution/{workflow_id}'
+
+
 def _get_environment_variables() -> Dict[str, str]:
     envs = {
         KEY: '',
