@@ -12,7 +12,6 @@ Python SDK for Conductor allows you to:
     3. Create and update workflow and task metadata
     4. User and event management
 
-
 ### Running Example
 
 > **Note**
@@ -85,13 +84,13 @@ There are two ways to execute a workflow:
 ### Synchronous Workflow Execution
 
 ```python
-TODO
+# WorkflowExecutor.ExecuteWorkflow(...)
 ```
 
 ### Asynchronous Workflow Execution
 
-```csharp
-WorkflowExecutor#StartWorkflow(...)
+```python
+WorkflowExecutor.StartWorkflow(...)
 ```
 
 See [main.py](/examples/main.py) for complete code sample of workflow execution.
