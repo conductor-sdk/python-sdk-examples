@@ -53,7 +53,6 @@ ConductorWorkflow(
     name='user_notification',
     version=1,
 )
-workflow.input_parameters = ['userId', 'notificationPref']
 workflow.add(
     SimpleTask('get_user_info', 'get_user_info').input(
         'userId', '${workflow.input.userId}')
