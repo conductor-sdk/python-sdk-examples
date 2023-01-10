@@ -3,26 +3,7 @@ from conductor.client.workflow.executor.workflow_executor import WorkflowExecuto
 from conductor.client.workflow.task.simple_task import SimpleTask
 from conductor.client.workflow.task.switch_task import SwitchTask
 from conductor.client.workflow.task.task import TaskInterface
-
-from examples.api import api_util
 from examples.workflow.workflow_input import NotificationPreference
-
-WORKFLOW_EXECUTOR = WorkflowExecutor(api_util.get_configuration())
-
-
-def create_complex_workflow() -> ConductorWorkflow:
-    global WORKFLOW_EXECUTOR
-    return ConductorWorkflow(
-        executor=WORKFLOW_EXECUTOR,
-        name='user_notification',
-        version=1,
-    ).input_parameters(
-        ['userId', 'notificationPref']
-    ).add(
-        create_get_user_details_task()
-    ).add(
-        create_email_or_sms_task()
-    )
 
 
 def create_get_user_details_task() -> TaskInterface:
