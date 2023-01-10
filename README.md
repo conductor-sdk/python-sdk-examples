@@ -53,8 +53,6 @@ ConductorWorkflow(
     executor=WORKFLOW_EXECUTOR,
     name='user_notification',
     version=1,
-).input_parameters(
-    ['userId', 'notificationPref']
 ).add(
     SimpleTask(
         'get_user_info', 'get_user_info'
