@@ -5,6 +5,8 @@ from conductor.client.http.models.task_result_status import TaskResultStatus
 
 from examples.worker.user_info import UserInfo
 
+import socket
+
 
 def get_user_info(task: Task) -> UserInfo:
     userId = task.input_data['userId']
@@ -35,9 +37,10 @@ def send_sms(task: Task) -> TaskResult:
     return task_result
 
 
-def get_task_result_from_task(self, task: Task) -> TaskResult:
+def get_task_result_from_task(task: Task) -> TaskResult:
     return TaskResult(
         task_id=task.task_id,
         workflow_instance_id=task.workflow_instance_id,
-        worker_id=self.get_identity()
+        worker_id=socket.gethostname(),
+        logs=[],
     )

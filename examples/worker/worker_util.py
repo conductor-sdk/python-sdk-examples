@@ -1,13 +1,9 @@
 from conductor.client.automator.task_handler import TaskHandler
-from conductor.client.http.models.task import Task
-from conductor.client.http.models.task_result import TaskResult
 from conductor.client.worker.worker import Worker
 from conductor.client.worker.worker_interface import WorkerInterface
 
-from examples.api.api_util import get_configuration
-from examples.worker.workers import get_user_info
-from examples.worker.workers import send_email
-from examples.worker.workers import send_sms
+from examples.api import api_util
+from examples.worker import workers
 
 
 def start_workers() -> TaskHandler:
@@ -17,7 +13,7 @@ def start_workers() -> TaskHandler:
             create_worker_send_email(),
             create_worker_send_sms()
         ],
-        configuration=get_configuration()
+        configuration=api_util.get_configuration()
     )
     task_handler.start_processes()
     print('started all workers')
@@ -27,7 +23,7 @@ def start_workers() -> TaskHandler:
 def create_worker_get_user_info() -> WorkerInterface:
     return Worker(
         task_definition_name='get_user_info',
-        execute_function=get_user_info,
+        execute_function=workers.get_user_info,
         poll_interval=0.5
     )
 
@@ -35,7 +31,7 @@ def create_worker_get_user_info() -> WorkerInterface:
 def create_worker_send_email() -> WorkerInterface:
     return Worker(
         task_definition_name='send_email',
-        execute_function=send_email,
+        execute_function=workers.send_email,
         poll_interval=0.5
     )
 
@@ -43,6 +39,6 @@ def create_worker_send_email() -> WorkerInterface:
 def create_worker_send_sms() -> WorkerInterface:
     return Worker(
         task_definition_name='send_sms',
-        execute_function=send_sms,
+        execute_function=workers.send_sms,
         poll_interval=0.5
     )
