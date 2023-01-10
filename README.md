@@ -48,24 +48,18 @@ We create a simple 2-step workflow that fetches the user details and sends an em
 <td width="50%"><img src="workflow.png" width="250px"></td>
 <td>
 <pre> 
-get_user_info_task = SimpleTask(
-    'get_user_info', 'get_user_info'
-).input(
-    'userId', '${workflow.input.userId}'
-)
-send_email_task = SimpleTask(
-    'send_email', 'send_email'
-).input(
-    'email', '${get_user_info.output.email}'
-)
-workflow = ConductorWorkflow(
-    executor=WORKFLOW_EXECUTOR,
+ConductorWorkflow(
+    executor=workflow_executor,
     name='user_notification',
     version=1,
-).add(
-    get_user_info_task   
 )
-workflow >> send_email_task
+workflow.input_parameters = ['userId', 'notificationPref']
+workflow.add(
+    SimpleTask('get_user_info', 'get_user_info').input(
+        'userId', '${workflow.input.userId}')
+)
+workflow >> SimpleTask('send_email', 'send_email').input(
+    'email', '${get_user_info.output.email}')
 </pre>
 </td>
 </tr>
