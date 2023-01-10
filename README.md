@@ -25,9 +25,20 @@ export SECRET=
 export CONDUCTOR_SERVER_URL=https://play.orkes.io/api
 ```
 
+Create a virtual environment
+```shell
+python3 -m venv examples
+source examples
+```
+
+Install dependencies
+```shell
+python3 -m pip install -r requirements.txt
+```
+
 Run the main program
-```python
-# TODO
+```shell
+python3 main.py
 ```
 
 ## Workflow
@@ -38,7 +49,25 @@ We create a simple 2-step workflow that fetches the user details and sends an em
 <td width="50%"><img src="workflow.png" width="250px"></td>
 <td>
 <pre> 
-<!-- TODO -->
+ConductorWorkflow(
+    executor=WORKFLOW_EXECUTOR,
+    name='user_notification',
+    version=1,
+).input_parameters(
+    ['userId', 'notificationPref']
+).add(
+    SimpleTask(
+        'get_user_info', 'get_user_info'
+    ).input(
+        'userId', '${workflow.input.userId}'
+    )
+).add(
+    SimpleTask(
+        'send_email', 'send_email'
+    ).input(
+        'email', '${get_user_info.output.email}'
+    )
+)
 </pre>
 </td>
 </tr>
@@ -46,13 +75,24 @@ We create a simple 2-step workflow that fetches the user details and sends an em
 
 
 ## Worker
-Workers are implemented as simple interface implementation. See [SimpleWorker.py](src/Examples/Worker/SimpleWorker.py) for details.
+Workers are a simple interface implementation. See [workers.py](/examples/worker/workers.py) for more details.
 
 ## Executing Workflows
 
-### Asynchronous Workflow Execution
+There are two ways to execute a workflow:
+1. Synchronously - useful for short duration workflows that completes within a few second.  
+2. Asynchronously - workflows that runs for longer period
+
+### Synchronous Workflow Execution
+
 ```python
-# TODO
+TODO
 ```
 
-See [Main.py](src/Examples/Main.py) for complete code sample of workflow execution.
+### Asynchronous Workflow Execution
+
+```csharp
+WorkflowExecutor#StartWorkflow
+```
+
+See [main.py](/examples/main.py) for complete code sample of workflow execution.
