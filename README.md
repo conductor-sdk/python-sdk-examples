@@ -91,7 +91,7 @@ TODO
 ### Asynchronous Workflow Execution
 
 ```csharp
-WorkflowExecutor#StartWorkflow
+WorkflowExecutor#StartWorkflow(...)
 ```
 
 See [main.py](/examples/main.py) for complete code sample of workflow execution.
