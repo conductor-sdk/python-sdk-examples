@@ -24,6 +24,22 @@ export SECRET=
 export CONDUCTOR_SERVER_URL=https://play.orkes.io/api
 ```
 
+Create a virtual environment
+
+```shell
+python3 -m venv conductor
+```
+
+Activate the environment
+- Unix/macOS:
+    ```shell
+    source conductor/bin/activate
+    ```
+- Windows:
+    ```shell
+    venv\Scripts\activate
+    ```
+
 Install dependencies
 ```shell
 python3 -m pip install -r requirements.txt
