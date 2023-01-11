@@ -1,15 +1,15 @@
 import sys
 sys.path.insert(1, '../')
 
-from examples.workflow.workflow_input import NotificationPreference
-from examples.workflow import workflow_util
-from examples.worker import worker_util
-from examples.api import api_util
-from conductor.client.workflow.task.task import TaskInterface
-from conductor.client.workflow.task.switch_task import SwitchTask
-from conductor.client.workflow.task.simple_task import SimpleTask
-from conductor.client.workflow.conductor_workflow import ConductorWorkflow
 from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
+from conductor.client.workflow.conductor_workflow import ConductorWorkflow
+from conductor.client.workflow.task.simple_task import SimpleTask
+from conductor.client.workflow.task.switch_task import SwitchTask
+from conductor.client.workflow.task.task import TaskInterface
+from examples.api import api_util
+from examples.worker import worker_util
+from examples.workflow import workflow_util
+from examples.workflow.workflow_input import NotificationPreference
 
 
 def create_email_or_sms_task() -> TaskInterface:
@@ -27,25 +27,30 @@ def create_email_or_sms_task() -> TaskInterface:
     return task
 
 
-task_handler = worker_util.start_workers()
+def main():
+    task_handler = worker_util.start_workers()
 
-workflow_executor = WorkflowExecutor(api_util.get_configuration())
+    workflow_executor = WorkflowExecutor(api_util.get_configuration())
 
-workflow = ConductorWorkflow(
-    executor=workflow_executor,
-    name='user_notification',
-    version=1,
-)
-workflow.input_parameters = ['userId', 'notificationPref']
-workflow.add(
-    SimpleTask('get_user_info', 'get_user_info').input(
-        'userId', '${workflow.input.userId}')
-)
-workflow >> create_email_or_sms_task()
+    workflow = ConductorWorkflow(
+        executor=workflow_executor,
+        name='user_notification',
+        version=1,
+    )
+    workflow.input_parameters = ['userId', 'notificationPref']
+    workflow.add(
+        SimpleTask('get_user_info', 'get_user_info').input(
+            'userId', '${workflow.input.userId}')
+    )
+    workflow >> create_email_or_sms_task()
 
-workflow.register(overwrite=True)
+    workflow.register(overwrite=True)
 
-workflow_util.start_workflow_sync(workflow)
-workflow_util.start_workflow_async(workflow)
+    workflow_util.start_workflow_sync(workflow)
+    workflow_util.start_workflow_async(workflow)
 
-task_handler.stop_processes()
+    task_handler.stop_processes()
+
+
+if __name__ == '__main__':
+    main()
