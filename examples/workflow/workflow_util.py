@@ -21,7 +21,7 @@ def start_workflow_async(workflow: ConductorWorkflow) -> None:
             }
         )
     )
-    time.sleep(7)
+    time.sleep(4)
     print()
     print('=======================================================================================')
     print('Workflow Execution Completed')
