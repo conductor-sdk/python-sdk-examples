@@ -27,7 +27,7 @@ export CONDUCTOR_SERVER_URL=https://play.orkes.io/api
 Create a virtual environment
 ```shell
 python3 -m venv examples
-source examples
+source bin/activate
 ```
 
 Install dependencies
@@ -37,6 +37,7 @@ python3 -m pip install -r requirements.txt
 
 Run the main program
 ```shell
+cd examples/
 python3 main.py
 ```
 
