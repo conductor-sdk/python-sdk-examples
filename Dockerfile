@@ -3,8 +3,6 @@ RUN mkdir /package
 COPY /requirements.txt /package/
 COPY /examples /package/examples
 WORKDIR /package
-RUN python3 -m venv examples
-RUN source examples
 RUN python3 -m pip install -r requirements.txt
 
 FROM piton as test

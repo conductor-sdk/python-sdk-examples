@@ -25,10 +25,20 @@ export CONDUCTOR_SERVER_URL=https://play.orkes.io/api
 ```
 
 Create a virtual environment
+
 ```shell
-python3 -m venv examples
-source examples
+python3 -m venv conductor
 ```
+
+Activate the environment
+- Unix/macOS:
+    ```shell
+    source conductor/bin/activate
+    ```
+- Windows:
+    ```shell
+    venv\Scripts\activate
+    ```
 
 Install dependencies
 ```shell
@@ -37,6 +47,7 @@ python3 -m pip install -r requirements.txt
 
 Run the main program
 ```shell
+cd examples/
 python3 main.py
 ```
 
@@ -77,12 +88,13 @@ There are two ways to execute a workflow:
 ### Synchronous Workflow Execution
 
 ```python
-# WorkflowExecutor.ExecuteWorkflow(...)
+WorkflowResourceApi.ExecuteWorkflow(...)
 ```
 
 ### Asynchronous Workflow Execution
 
 ```python
+ConductorWorkflow.StartWorkflow(...)
 WorkflowExecutor.StartWorkflow(...)
 ```
 

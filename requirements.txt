@@ -1,1 +1,1 @@
-conductor-python==v1.0.46
+conductor-python==v1.0.53
