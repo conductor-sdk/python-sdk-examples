@@ -88,12 +88,13 @@ There are two ways to execute a workflow:
 ### Synchronous Workflow Execution
 
 ```python
-# WorkflowExecutor.ExecuteWorkflow(...)
+WorkflowResourceApi.ExecuteWorkflow(...)
 ```
 
 ### Asynchronous Workflow Execution
 
 ```python
+ConductorWorkflow.StartWorkflow(...)
 WorkflowExecutor.StartWorkflow(...)
 ```
 
