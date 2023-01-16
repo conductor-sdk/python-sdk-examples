@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(1, '../')
 
-from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
 from conductor.client.workflow.conductor_workflow import ConductorWorkflow
+from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
 from conductor.client.workflow.task.simple_task import SimpleTask
 from conductor.client.workflow.task.switch_task import SwitchTask
 from conductor.client.workflow.task.task import TaskInterface
@@ -10,6 +10,7 @@ from examples.api import api_util
 from examples.worker import worker_util
 from examples.workflow import workflow_util
 from examples.workflow.workflow_input import NotificationPreference
+from examples.workflow.workflow_input import WorkflowInput
 
 
 def create_email_or_sms_task() -> TaskInterface:
@@ -46,8 +47,13 @@ def main():
 
     workflow.register(overwrite=True)
 
-    workflow_util.start_workflow_sync(workflow)
-    workflow_util.start_workflow_async(workflow)
+    workflow_input = WorkflowInput('userA')
+    workflow_util.start_workflow_sync(
+        workflow_executor, workflow, workflow_input
+    )
+    workflow_util.start_workflow_async(
+        workflow, workflow_input
+    )
 
     task_handler.stop_processes()
 
