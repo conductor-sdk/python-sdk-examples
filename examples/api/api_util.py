@@ -35,7 +35,7 @@ def _get_environment_variables() -> Dict[str, str]:
     }
     for env_key in envs.keys():
         value = os.getenv(env_key)
-        if value is None or value == '':
-            raise RuntimeError(f'environment variable not set: {env_key}')
         envs[env_key] = value
+    if envs['CONDUCTOR_SERVER_URL'] is None:
+        raise RuntimeError(f'environment variable not set: {env_key}')
     return envs
