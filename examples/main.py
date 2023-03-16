@@ -1,21 +1,22 @@
+import logging
+import time
+from examples.api import api_util
+from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
+from conductor.client.workflow.conductor_workflow import ConductorWorkflow
+from conductor.client.http.models.start_workflow_request import StartWorkflowRequest
+from examples.workflow.workflow_input import WorkflowInput
+from examples.workflow.workflow_input import NotificationPreference
+from examples.worker import worker_util
+from conductor.client.workflow.task.task import TaskInterface
+from conductor.client.workflow.task.switch_task import SwitchTask
+from conductor.client.workflow.task.simple_task import SimpleTask
 import sys
 
 sys.path.insert(1, '../')
 
-from conductor.client.workflow.task.simple_task import SimpleTask
-from conductor.client.workflow.task.switch_task import SwitchTask
-from conductor.client.workflow.task.task import TaskInterface
-from examples.worker import worker_util
-from examples.workflow.workflow_input import NotificationPreference
-from examples.workflow.workflow_input import WorkflowInput
-from conductor.client.http.models.start_workflow_request import StartWorkflowRequest
-from conductor.client.workflow.conductor_workflow import ConductorWorkflow
-from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
-from examples.api import api_util
-import time
-import logging
 
 logging.disable(level=logging.DEBUG)
+
 
 def decision_task() -> TaskInterface:
     task = SwitchTask('emailorsms', '${workflow.input.notificationPref}')
@@ -43,7 +44,8 @@ def main():
         version=1,
     )
     workflow.input_parameters = ['userId', 'notificationPref']
-    simple_task = SimpleTask('get_user_info', 'get_user_info').input('userId', '${workflow.input.userId}')
+    simple_task = SimpleTask('get_user_info', 'get_user_info').input(
+        'userId', '${workflow.input.userId}')
 
     workflow.add(simple_task)
     workflow >> decision_task()  # you can also use >> operator
@@ -63,11 +65,11 @@ def main():
 
 def start_workflow_sync(workflow_executor: WorkflowExecutor, workflow: ConductorWorkflow, workflow_input) -> None:
     workflow_run = workflow_executor.execute_workflow(
-        request=StartWorkflowRequest(name=workflow.name, version=workflow.version),
+        request=StartWorkflowRequest(
+            name=workflow.name,
+            version=workflow.version
+        ),
         wait_until_task_ref='',
-    )
-    execution_url = api_util.get_workflow_execution_url(
-        workflow_run.workflow_id
     )
     print()
     print('=======================================================================================')
@@ -75,7 +77,8 @@ def start_workflow_sync(workflow_executor: WorkflowExecutor, workflow: Conductor
     print(f'Workflow Id: {workflow_run.workflow_id}')
     print(f'Workflow Status: {workflow_run.status}')
     print(f'Workflow Output: {str(workflow_run.output)}')
-    print(f'Workflow Execution Flow UI: {execution_url}')
+    print(
+        f'Workflow Execution Flow UI: {api_util.get_workflow_execution_url(workflow_run.workflow_id)}')
     print('=======================================================================================')
 
 
