@@ -1,18 +1,20 @@
 import sys
 sys.path.insert(1, '../')
 
-from conductor.client.http.models.start_workflow_request import StartWorkflowRequest
-from conductor.client.workflow.conductor_workflow import ConductorWorkflow
-from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
-from conductor.client.workflow.task.simple_task import SimpleTask
-from conductor.client.workflow.task.switch_task import SwitchTask
-from conductor.client.workflow.task.task import TaskInterface
-from examples.api import api_util
-from examples.worker import worker_util
-from examples.workflow.workflow_input import NotificationPreference
-from examples.workflow.workflow_input import WorkflowInput
-import logging
+import uuid
 import time
+import logging
+from examples.workflow.workflow_input import WorkflowInput
+from examples.workflow.workflow_input import NotificationPreference
+from examples.worker import worker_util
+from examples.api import api_util
+from conductor.client.workflow.task.task import TaskInterface
+from conductor.client.workflow.task.switch_task import SwitchTask
+from conductor.client.workflow.task.simple_task import SimpleTask
+from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
+from conductor.client.workflow.conductor_workflow import ConductorWorkflow
+from conductor.client.http.models.start_workflow_request import StartWorkflowRequest
+
 
 logging.disable(level=logging.DEBUG)
 
@@ -63,12 +65,16 @@ def main():
 
 
 def start_workflow_sync(workflow_executor: WorkflowExecutor, workflow: ConductorWorkflow, workflow_input) -> None:
-    workflow_run = workflow_executor.execute_workflow(
-        request=StartWorkflowRequest(
+    workflow_run = workflow_executor.workflow_client.execute_workflow(
+        body=StartWorkflowRequest(
             name=workflow.name,
             version=workflow.version
         ),
+        request_id=str(uuid.uuid4()),
+        version=workflow.version,
+        name=workflow.name,
         wait_until_task_ref='',
+        _request_timeout= 60
     )
     print()
     print('=======================================================================================')
