@@ -1,19 +1,18 @@
-import logging
-import time
-from examples.api import api_util
-from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
-from conductor.client.workflow.conductor_workflow import ConductorWorkflow
-from conductor.client.http.models.start_workflow_request import StartWorkflowRequest
-from examples.workflow.workflow_input import WorkflowInput
-from examples.workflow.workflow_input import NotificationPreference
-from examples.worker import worker_util
-from conductor.client.workflow.task.task import TaskInterface
-from conductor.client.workflow.task.switch_task import SwitchTask
-from conductor.client.workflow.task.simple_task import SimpleTask
 import sys
-
 sys.path.insert(1, '../')
 
+from conductor.client.http.models.start_workflow_request import StartWorkflowRequest
+from conductor.client.workflow.conductor_workflow import ConductorWorkflow
+from conductor.client.workflow.executor.workflow_executor import WorkflowExecutor
+from conductor.client.workflow.task.simple_task import SimpleTask
+from conductor.client.workflow.task.switch_task import SwitchTask
+from conductor.client.workflow.task.task import TaskInterface
+from examples.api import api_util
+from examples.worker import worker_util
+from examples.workflow.workflow_input import NotificationPreference
+from examples.workflow.workflow_input import WorkflowInput
+import logging
+import time
 
 logging.disable(level=logging.DEBUG)
 
