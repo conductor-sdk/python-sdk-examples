@@ -1,18 +1,19 @@
 from conductor.client.http.models.task import Task
-from conductor.client.http.models.task_result import TaskResult
 from conductor.client.http.models.task_exec_log import TaskExecLog
+from conductor.client.http.models.task_result import TaskResult
 from conductor.client.http.models.task_result_status import TaskResultStatus
-
+from conductor.client.worker.worker_task import WorkerTask
 from examples.worker.user_info import UserInfo
-
 import socket
 
 
+@WorkerTask(task_definition_name='get_user_info', poll_interval_seconds=0.5)
 def get_user_info(task: Task) -> UserInfo:
     userId = task.input_data['userId']
     return UserInfo(name='User X', id=userId)
 
 
+@WorkerTask(task_definition_name='send_email', poll_interval_seconds=0.5)
 def send_email(task: Task) -> TaskResult:
     email = task.input_data['email']
     task_result = get_task_result_from_task(task)
@@ -25,6 +26,7 @@ def send_email(task: Task) -> TaskResult:
     return task_result
 
 
+@WorkerTask(task_definition_name='send_sms', poll_interval_seconds=0.5)
 def send_sms(task: Task) -> TaskResult:
     phoneNumber = task.input_data['phoneNumber']
     task_result = get_task_result_from_task(task)
