@@ -6,11 +6,12 @@ from conductor.client.worker.worker_task import WorkerTask
 from examples.worker.user_info import UserInfo
 import socket
 
-
+# docs-marker-start-1
 @WorkerTask(task_definition_name='get_user_info', poll_interval_seconds=0.5)
 def get_user_info(task: Task) -> UserInfo:
     userId = task.input_data['userId']
     return UserInfo(name='User X', id=userId)
+# docs-marker-end-1
 
 
 @WorkerTask(task_definition_name='send_email', poll_interval_seconds=0.5)
