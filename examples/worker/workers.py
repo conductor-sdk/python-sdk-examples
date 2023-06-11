@@ -40,6 +40,11 @@ def send_sms(task: Task) -> TaskResult:
     return task_result
 
 
+@WorkerTask(task_definition_name='example_task', domain='test')
+def worker_with_domain(input) -> object:
+    return {'some_relevant_key': 'python is so cool :)'}
+
+
 def get_task_result_from_task(task: Task) -> TaskResult:
     return TaskResult(
         task_id=task.task_id,
