@@ -8,7 +8,7 @@ from examples.worker.user_info import UserInfo
 import socket
 
 
-def get_user_info(task: Task) -> UserInfo:
+def fraud_check(task: Task) -> UserInfo:
     userId = task.input_data['userId']
     return UserInfo(name='User X', id=userId)
 
